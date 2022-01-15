@@ -1,6 +1,7 @@
 package com.ssf.workshop13.controller;
 
 import com.ssf.workshop13.model.Contact;
+import com.ssf.workshop13.repositories.ContactRepository;
 import com.ssf.workshop13.util.Contacts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/contact", produces = MediaType.TEXT_HTML_VALUE)
 public class ContactController {
 
-    private Logger logger = LoggerFactory.getLogger(ContactController.class);
+    private final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
     @Autowired
     private ApplicationArguments applicationArguments;
+
+    @Autowired
+    private ContactRepository contactRepository;
 
     // submit & save contact information
     @PostMapping
@@ -32,6 +36,11 @@ public class ContactController {
         logger.info("Phone Number >> " + contact.getPhoneNumber());
         Contacts contacts = new Contacts();
         contacts.saveContact(contact, model, applicationArguments);
+//        List<String> contactList = new LinkedList<>();
+//        contactList.add(contact.getId());
+
+//        Optional<String> optionalContacts = contactRepository.get(contact.getId());
+        contactRepository.save(contact.getId(), contact);
         return "contact";
     }
 
