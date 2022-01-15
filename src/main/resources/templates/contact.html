@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="*{contact.name}"></title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+</head>
+<body th:object="${contact}">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col d-flex justify-content-center mt-5">
+                <h1> <code th:text="*{name}"></code> 's Contact Information</h1>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover">
+                    <tr>
+                        <td>ID: </td>
+                        <td><span th:text="*{id}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Name: </td>
+                        <td><span th:text="*{name}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Email Address: </td>
+                        <td th:text="*{email}"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number: </td>
+                        <td th:text="*{phoneNumber}"></td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <a href="/" class="btn btn-primary">Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

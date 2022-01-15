@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <form action="/contact" method="get">
+            <div class="row mt-2">
+                <p>User ID</p>
+                <div class="input-group">
+                    <input type="text" name="id" placeholder="Enter ID here for search purposes" class="form-control">
+                    <button type="submit" formaction="/contact" class="btn btn-primary">Search ID</button>
+                </div>
+            </div>
+        </form>
+
+        <form action="/contact" method="post">
+            <div class="row mt-2">
+                <div class="col">
+                    <p>Name</p>
+                    <input type="text" name="name" placeholder="Enter name here" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <p>Email</p>
+                    <input type="email" name="email" placeholder="Enter email here" class="form-control">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <p>Phone number</p>
+                    <input type="tel" name="phoneNumber" placeholder="Enter phone number here" class="form-control" pattern="[0-9]{8}">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-end">
+                    <div >
+                        <button type="submit" formaction="/contact" class="btn btn-warning">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</body>
+</html>
