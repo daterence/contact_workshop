@@ -1,5 +1,8 @@
 package com.ssf.workshop13.model;
 
+import jakarta.json.JsonObject;
+
+import java.util.List;
 import java.util.Random;
 
 public class Contact {
@@ -24,6 +27,13 @@ public class Contact {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Contact(String id, List<Contact> contactList) {
+        this.id = id;
+        this.name = String.valueOf(contactList.get(0));
+        this.email = String.valueOf(contactList.get(1));
+        this.phoneNumber = Integer.parseInt(String.valueOf(contactList.get(2)));
     }
 
     private synchronized String generateId() {
@@ -61,5 +71,14 @@ public class Contact {
     }
     public void setId(String id) {
         this.id = id;
+    }
+
+    public static Contact create(JsonObject object) {
+        final Contact contact = new Contact();
+        contact.setId(object.getString("id"));
+        contact.setName(object.getString("name"));
+        contact.setEmail(object.getString("email"));
+        contact.setPhoneNumber(Integer.parseInt(object.getString("phoneNumber")));
+        return contact;
     }
 }
