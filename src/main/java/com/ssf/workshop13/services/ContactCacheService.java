@@ -4,6 +4,7 @@ import com.ssf.workshop13.model.Contact;
 import com.ssf.workshop13.repositories.ContactRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,8 @@ import org.springframework.ui.Model;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ContactCacheService {
@@ -37,15 +37,18 @@ public class ContactCacheService {
 
     public void save(String id, Contact contact) {
 
-//        String value = Json.createObjectBuilder()
-//            .add("name", contact.getName())
-//            .add("email", contact.getEmail())
-//            .add("phoneNumber", contact.getPhoneNumber())
-//            .build()
-//            .toString();
-        String value = Stream.of(contact.getName(), contact.getEmail(), contact.getPhoneNumber())
-                        .map(n -> String.valueOf(n))
-                        .collect(Collectors.joining(","));
+        // Json method
+        String value = Json.createObjectBuilder()
+            .add("name", contact.getName())
+            .add("email", contact.getEmail())
+            .add("phoneNumber", contact.getPhoneNumber())
+            .build()
+            .toString();
+
+        // String method
+//        String value = Stream.of(contact.getName(), contact.getEmail(), contact.getPhoneNumber())
+//                        .map(n -> String.valueOf(n))
+//                        .collect(Collectors.joining(","));
 
         contactRepository.save(id, value);
     }
@@ -74,5 +77,21 @@ public class ContactCacheService {
         model.addAttribute("contact", contact);
 
         return Optional.of(contact);
+    }
+
+    public Optional<Contact> get(String id) {
+        Optional<String> optl = contactRepository.get(id);
+
+        if (optl.isEmpty())
+            return Optional.empty();
+        logger.info("OPTL >>> " + optl);
+
+        JsonObject contactObject = Json.createReader(new StringReader(optl.get()))
+                        .readObject();
+
+        return Optional.of(new Contact(contactObject.getString("name"),
+                contactObject.getString("email"),
+                contactObject.getInt("phoneNumber")));
+
     }
 }

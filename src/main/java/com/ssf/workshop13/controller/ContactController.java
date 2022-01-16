@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -60,18 +59,21 @@ public class ContactController {
         String id = contact.getId();
         logger.info("ID >> " + id);
 
-        Optional<Contact> optionalContact = contactCacheService.get(id, model);
+        // String method
+//        Optional<Contact> optionalContact = contactCacheService.get(id, model);
 
-        List<Contact> contactList;
+        // Json method
+        Optional<Contact> optionalContact2 = contactCacheService.get(id);
+        Contact ctc;
 
-//        if (optionalContact.isPresent()) {
-//            contactList = optionalContact.get();
-//            ctc = new Contact(id, contactList);
-//        } else {
-//            logger.info("ID does not exist");
-//            return "index";
-//        }
+        if (optionalContact2.isPresent()) {
+            ctc = optionalContact2.get();
+        } else {
+            logger.info("ID does not exist");
+            return "index";
+        }
 
+        model.addAttribute("contact", ctc);
         model.addAttribute("id", id);
         return "contact";
     }
